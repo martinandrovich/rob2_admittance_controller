@@ -31,8 +31,9 @@ dydt = @(t, y) [y(4:6) ; fd_fun(y(1:3), y(4:6))];
 
 % simulate
 [t, y] = simulate_ode23(dydt, tspan, [q0 dq0])
+tau_d = y(:,4:6) * -D
 
 %% plot
 
 close all;
-plot_sim(t, y);
+plot_sim(t, y, tau_d);

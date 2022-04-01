@@ -22,11 +22,12 @@ ref = [[1 2 3]' [0 0 0]' [0 0 0]'];
 
 % simulate
 [t, y] = simulate_ode23(@(t, y) odefcn(t, y, fd_fun, ref), tspan, [q0 dq0])
+tau_d = y(:,4:6) * -eye(3)
 
 %% plot
 
 close all;
-plot_sim(t, y);
+plot_sim(t, y, tau_d);
 
 %%
 
@@ -36,8 +37,8 @@ function dydt = odefcn(t, y, fd_fun, ref)
 	% pos and vel from robot
 	q = y(1:3); dq = y(4:6);
 
-    % setpoints
-    q_d = ref(:, 1); dq_d = ref(:, 2); ddq_d = ref(:, 3);
+	% setpoints
+	q_d = ref(:, 1); dq_d = ref(:, 2); ddq_d = ref(:, 3);
 
 	% compute desired torque
 	tau_d = invdyn_ctrl(q, dq, q_d, dq_d, ddq_d);
