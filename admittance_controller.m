@@ -63,18 +63,22 @@ dpsi_ = eye(3) * rotx(phi) * roty(th); dpsi_ = dpsi_(:, 3);
 T_ = [dphi_ dth_ dpsi_]
 T_fcn = @(vec) double(subs(T_, [phi th psi], vec'));
 
-%% quaternion
+%% quaternion + angular velocity
 
 % q = [cos(th/2) r * sin(th/2)] = [eta, eps] = [a b c d]
 % th = acos(a)*2 = acos(eta)*2
 % r  = 1/sin(th/2) * [b c d] = 1/sin(th/2) * eps
 % r  = unit([b c d]) = unit(eps) = eps/norm(eps)
 
-q_d = quaternion(phi_d', "euler", "XYZ", "frame");
+% initial conditions
+q_d_cd0 = quaternion([0 0 0], "euler", "XYZ", "frame").compact();
+w_d_cd0 = [0 0 0]';
+
+% desired
+q_d = quaternion(phi_d', "euler", "XYZ", "frame").compact();
 w_d = [0 0 0]';
 dw_d = [0 0 0]';
 
-% axang = quat2axang(q_d); eta = axang(1); eps = axang(2:4);
 
 %% trajectory
 close all;
@@ -88,6 +92,8 @@ T_0 = eye(4);
 % T_d = SE3(eul2rotm(phi_d', "XYZ"), p_d).T
 T_d = trvec2tform(p_d') * eul2tform(phi_d', "XYZ")
 [Ts, vel, acc] = transformtraj(T_0, T_d, tspan, t);
+
+%% plot
 
 % position
 x_d = squeeze(Ts(1,4,:)); y_d = squeeze(Ts(2,4,:)); z_d = squeeze(Ts(3,4,:));
