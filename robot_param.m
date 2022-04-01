@@ -35,7 +35,6 @@ m3 = 2.846;
 % make everything symbolic (except alpha)
 syms d1 a2 a3 real
 syms m c1 c2 c3 [3 1] real
-% syms I1 I2 I3 [3 3] real
 I1 = diag(diag(sym("I1", [3 3], "real")));
 I2 = diag(diag(sym("I2", [3 3], "real")));
 I3 = diag(diag(sym("I3", [3 3], "real")));
