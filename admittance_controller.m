@@ -9,18 +9,14 @@ clc;
 F_ext = 10; % [N]
 X_err_d = 1; % [m]
 
-md = 5; % [kg]
-kp = F_ext/X_err_d; % due to desired maximum displacement
+md = 5; kp = F_ext/X_err_d; % due to desired maximum displacement
 kd = sqrt(4 * md * kp);
 
 wn = sqrt(kp/md)
 zeta = kd / (2 * sqrt(kp * md))
 
 % impedance parameters
-n = 3;
-Md = eye(n)*md;
-Kd = eye(n)*kd;
-Kp = eye(n)*kp;
+Md = eye(3)*md; Kd = eye(3)*kd; Kp = eye(3)*kp;
 
 %% input
 

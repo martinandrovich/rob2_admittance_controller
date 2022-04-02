@@ -3,6 +3,7 @@ format short G
 %#ok<*NOPTS>
 
 % simulation
+addpath(genpath("simulink")); % add to path
 model = "admittance_controller_full";
 sys = load_system(model);
 tspan = [0 25]; dt = 0.01;
@@ -20,16 +21,16 @@ h_0e = [
 h_0es = timeseries(h_0e, t);
 
 % impedance parameters
-% SET THESE TO REAL VALUES
-Kp = eye(3) * 16;
-Kd = eye(3) * 4;
-Md = eye(3) * 1;
+F_ext = 10; X_err_d = 1;
+md = 5; kp = F_ext/X_err_d; kd = sqrt(4 * md * kp);
+Md = eye(3)*md; Kd = eye(3)*kd; Kp = eye(3)*kp;
 
-zeta = 1;
+wn = sqrt(kp/md)
+zeta = kd / (2 * sqrt(kp * md))
 
 % trajectory
-T_0 = trvec2tform([0.2 -0.3 0.3]) * eul2tform([-0.2 -0.5 -0.6], "XYZ");
-T_d = trvec2tform([0.6    0 0.4]) * eul2tform([-1.2 1 -1.2], "XYZ");
+T_0 = trvec2tform([0.1 0.3 -0.3]) * eul2tform([0 pi/7 -pi/2], "XYZ");
+T_d = trvec2tform([0.5 0.0 0.2]) * eul2tform([-pi/4 1 pi/4], "XYZ");
 [Ts, vel, acc] = transformtraj(T_0, T_d, tspan, t);
 R_ds = Ts(1:3,1:3,:);
 
