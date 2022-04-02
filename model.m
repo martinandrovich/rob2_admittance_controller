@@ -83,9 +83,6 @@ ddt_dL_ddq1 = diff(dL_ddq1, q1) * dq1 + diff(dL_ddq1, dq1) * ddq1
 dLddq = jacobian(L, dq);
 ddt_dLdq = jacobian(dLddq, q) * dq + jacobian(dLddq, dq) * ddq;
 QL = ddt_dLdq - jacobian(L, q)'
-
-return
-
 % QL = jacobian(dLddq, q) * dq + jacobian(dLddq, dq) * ddq - jacobian(L, q)'
 
 % equations of motion (M, C, g)

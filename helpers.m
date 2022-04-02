@@ -50,29 +50,40 @@ function [t, y] = simulate_ode23_(odefcn, tspan, y0)
 end
 
 function plot_sim_(t, y, tau_d)
-	set(0,'DefaultLineLineWidth',2)
 
-	figure;
-	plot(t,y(:,1))
-	hold on;
-	plot(t,y(:,2))
-	plot(t,y(:,3))
-	xlabel("time [s]"); ylabel("joint position [rad]")
-	legend(["q_1", "q_2", "q_3"])
+	run("plot_config.m");
 
 	figure
-	plot(t,y(:,4))
-	hold on
-	plot(t,y(:,5))
-	plot(t,y(:,6))
-	xlabel("time [s]"); ylabel("joint velocity [rad/s]")
-	legend(["dq_1", "dq_2", "dq_3"])
+	colororder(COLOR.MAP)
+	plot(t, y(:,1))
+	hold on; grid on;
+	plot(t, y(:,2))
+	plot(t, y(:,3))
+	xlabel("Time [s]"); ylabel("Joint position [rad]")
+	legend(["$q_1$", "$q_2$", "$q_3$"])
+
+	exportgraphics(gca, PATH_IMG + "/sim_dampening_q.pdf");
 
 	figure
-	plot(t,tau_d(:,1))
-	hold on
-	plot(t,tau_d(:,2))
-	plot(t,tau_d(:,3))
-	xlabel("time [s]"); ylabel("joint torque [N m]")
-	legend(["tau_1", "tau_2", "tau_3"])
+	colororder(COLOR.MAP)
+	plot(t, y(:,4))
+	hold on; grid on;
+	plot(t, y(:,5))
+	plot(t, y(:,6))
+	xlabel("Time [s]"); ylabel("Joint velocity [rad/s]")
+	legend(["$\dot{q}_1$", "$\dot{q}_2$", "$\dot{q}_3$"])
+
+	exportgraphics(gca, PATH_IMG + "/sim_dampening_dq.pdf");
+
+	figure
+	colororder(COLOR.MAP)
+	plot(t, tau_d(:,1))
+	hold on; grid on;
+	plot(t, tau_d(:,2))
+	plot(t, tau_d(:,3))
+	xlabel("Time [s]"); ylabel("Joint torque [N m]")
+	legend(["$\tau_1$", "$\tau_2$", "$\tau_3$"])
+
+	exportgraphics(gca, PATH_IMG + "/sim_dampening_tau.pdf");
+
 end
