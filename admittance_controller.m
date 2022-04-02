@@ -93,6 +93,7 @@ T_0 = eye(4);
 T_d = trvec2tform(p_d') * eul2tform(phi_d', "XYZ")
 [Ts, vel, acc] = transformtraj(T_0, T_d, tspan, t);
 
+
 %% plot
 
 % position
